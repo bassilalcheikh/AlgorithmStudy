@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public class EratoSieve{
     public static void Main(string[] args)
     {
-        bool[] desired_primes = EratoPrimes.GeneratePrimes(10);
+        int[][] desired_primes = EratoPrimes.GeneratePrimes(10);
         Console.WriteLine("Hello.");
 
     }
@@ -17,17 +17,16 @@ public class EratoSieve{
 public class EratoPrimes{
     public static bool[] GeneratePrimes(int limit)
     {
-        string test_return = "stuff";
-        //int[,] first_array = new int[limit];
-        bool[] arr_1 = new bool[limit];
-        arr_1[0]=true;
-        arr_1[1]=true;
-        enum enum_arr{arr_1};
+        int[][] first_array = new int[limit][limit];
+        //first_array[][0]=1;
+        //first_array[][1]=1;
+        for(int i=0; i<limit; i++){
+            first_array[i][]=i;
+        }
 
         for(int t=0; t<limit; t++){
-            Console.WriteLine(arr_1[t]);
-
+            Console.WriteLine(first_array[t]);
         }
-        return arr_1;
+        return first_array;
     }
 }
