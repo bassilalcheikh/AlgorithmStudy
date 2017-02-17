@@ -9,15 +9,6 @@ from Perceptron import perceptron
 X = np.arange(0,10,1)
 mpl.axis([0, 10, 0, 10])
 
-Y_3 = [1,1,1,1,1,1,1,1,1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
-
-#data_ = np.transpose(data_l)
-
-X_1 = np.concatenate((X, X))
-X_2 = np.concatenate((2*X+1, 2*X-1))
-
-#data_ = np.vstack((X_1, X_2))
-
 #Y = perceptron(data_, Y_3, 1000)
 #print(Y[0][0], Y[0][1], Y[1])
 
@@ -27,14 +18,16 @@ X_2 = np.concatenate((2*X+1, 2*X-1))
 X_data = np.array([[0,4],[-5,0],[-6,1],[1,4],[4,5],[-3,2],[-2,5],[0,0],[1,0],[3,1],[5,2],[-1,-1],[-2,-3],[-5,-5]])
 Y_data = np.array([1,1,1,1,1,1,1,-1,-1,-1,-1,-1,-1,-1])
 
+
 #print X_data.shape[0]
 #print Y_data.shape[0]
 
 #input format: X is a column
 def linear_perceptron(X, Y, N):
-    W = np.transpose([]*(X.shape[0]+1))
-    print W
-    X = np.transpose(np.concatenate(([1],X)))
+    # prepare X and W arrays
+    W = np.transpose([0]*(X.shape[1]+1))
+    X = np.insert(X, 0, 1, axis=1)
+
     point_ct = X.shape[0]
 
     mispl_pts = 1
