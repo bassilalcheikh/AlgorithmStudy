@@ -21,28 +21,48 @@
 #    as these will be ignored in the final enumeration of primes.
 # 8. Repeat steps four through seven.
 # ==============================================================================
-limit = 100
+def atkin_sieve(limit):
+    sieve_list = [-1]*limit
+    sieve_list[2] *= -1
+    sieve_list[3] *= -1
+    x = 1
+    while(x*x < limit):
+        y = 1
+        while(y*y < limit):
+            n = (4*x*x)+(y*y)
+            if n <= limit and (n%12==5 or n%12==1):
+                sieve_list[n] *= -1
 
-results = [2,3,5]
+            n = (3*x*x)+(y*y)
+            if n <= limit and n%12==7:
+                sieve_list[n] *= -1
 
-sieve_list = [False]*limit
+            n = (3*x*x)-(y*y)
+            if n <= limit and n%12==11 and x>y:
+                sieve_list[n] *= -1
 
-x = 1; y = 1
-while(x*x < limit**0.5+1):
-    while(y*y < limit**0.5+1):
-        n = (4*x*x)+(y*y)
-        if n <= limit and (n%12==5 or n%12==1):
-            sieve_list[]=True
+            y += 1
+        x += 1
 
-        n -= x*x
-        if n <= limit and n%12==7:
-            sieve_list[]=True
+    r = 5
+    while r*r < limit:
+        if sieve_list[r] > 0:
+            i = r*r
+            while i*i < limit:
+                sieve_list[i] *= -1
+                i += r*r
+        r += 1
 
-        n -= 2*y*y
-        if n <= limit and n%12==11 and x>y:
-            sieve_list[]=True
+    results = []
+    x = 0
+    for p in sieve_list:
+        if p > 0:
+            results.append(x)
+        x += 1
 
-        y += 1
-    x += 1
+    return results
+
+print(atkin_sieve(200))
+
 
 # http://www.geeksforgeeks.org/sieve-of-atkin/
