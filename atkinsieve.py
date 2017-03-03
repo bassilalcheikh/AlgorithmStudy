@@ -1,6 +1,6 @@
 # Sieve of Atkin
 #
-# pseudocode taken from: http://www.geeksforgeeks.org/sieve-of-atkin/
+# Pseudocode taken from: http://www.geeksforgeeks.org/sieve-of-atkin/
 #
 # Paper can be found at: https://cr.yp.to/papers/primesieves.pdf
 #
@@ -40,8 +40,5 @@ def atkin_sieve(limit):
         r_squared = r**2
     # Part III: Append everything into a list
     return [x for x, p in enumerate(sieve_list) if p]
-
-print(len(atkin_sieve(2000000)))
-print(time()-t_0)
 
 print(atkin_sieve(200))
