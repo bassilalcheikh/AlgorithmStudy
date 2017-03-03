@@ -26,6 +26,7 @@ def atkin_sieve(limit):
     sieve_list[2] *= -1
     sieve_list[3] *= -1
     x = 1
+    # Part I: preliminary work
     while(x*x < limit):
         y = 1
         while(y*y < limit):
@@ -40,29 +41,24 @@ def atkin_sieve(limit):
             n = (3*x*x)-(y*y)
             if n <= limit and n%12==11 and x>y:
                 sieve_list[n] *= -1
-
             y += 1
         x += 1
-
+    # Part II: Remove the squares of primes (and their multiples)
     r = 5
     while r*r < limit:
         if sieve_list[r] > 0:
             i = r*r
-            while i*i < limit:
-                sieve_list[i] *= -1
+            while i < limit:
+                sieve_list[i] = -1
                 i += r*r
         r += 1
-
+    # Part III: Append everything into a list
     results = []
     x = 0
     for p in sieve_list:
         if p > 0:
             results.append(x)
         x += 1
-
     return results
 
 print(atkin_sieve(200))
-
-
-# http://www.geeksforgeeks.org/sieve-of-atkin/
