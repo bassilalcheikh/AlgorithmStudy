@@ -1,51 +1,69 @@
-http://compoasso.free.fr/primelistweb/ressource/Atkin3.java
-
+#http://compoasso.free.fr/primelistweb/ressource/Atkin3.java
+from math import sqrt
 from time import time
 t_0 = time()
 def atkin_sieve(limit):
     sieve_list = [False]*(limit+1)
     sieve_list[2:4] = (True, True)
+    incr_sequence = [2,4] # to be used for increments
     # Part I: preliminary work
     # First loop
-    x = x_squared = 1
-    while 4*x_squared < limit:
-        #if x % 3 == 0:
-        y = y_squared = 1
-        while y_squared < limit:
-            n = 4 * x_squared + y_squared
-            if n <= limit and n % 12 in (1,5):
-                sieve_list[n] = not sieve_list[n]
-            y += 1
-            y_squared = y**2
+    x = 1
+    first_bound = sqrt(limit/4) + 1
+    while x < first_bound:
+        incr_index = 0
+        k_1 = 4*x*x
+        y = 1 # good
+        if x % 3 == 0:
+            while True:
+                k = k_1 + y**2
+                if (k >= limit):
+                    break
+                else:
+                    sieve_list[k] = not sieve_list[k]
+                    y += incr_sequence[(++incr_index & 1)]
+        else:
+            while True:
+                k = k_1 + y * y
+                if (k >= limit):
+                    break
+                else:
+                    sieve_list[k] = not sieve_list[k]
+                    y += 2
         x += 1
-        x_squared = x**2
 
     # Second loop
-    x = x_squared = 1
-    while 3*x_squared < limit:
+    x = 1
+    second_bound = sqrt(limit/3) + 1
+    while x < second_bound:
+        incr_index = 1
         y = 2
-        while y*y < limit:
-            n = 3 * x_squared + y*y
-            if n <= limit and n % 12 == 7:
-                sieve_list[n] = not sieve_list[n]
-            y += 2
-            #y_squared = y**2
+        k_2 = 3*x*x
+        while True:
+            k = k_2 + y**2
+            if k >= limit:
+                break
+            sieve_list[k] = not sieve_list[k]
+            y += incr_sequence[(++incr_index & 1)]
         x += 2
-        x_squared = x**2
 
     # Third loop
-    x = x_squared = 1
-    while x_squared < limit:
-        y = y_squared = 1
-        while y_squared < limit:
-            if x > y:
-                n = 3 * x_squared - y_squared
-                if n <= limit and n % 12 == 11:
-                    sieve_list[n] = not sieve_list[n]
-            y += 1
-            y_squared = y**2
+    x = 1
+    third_bound = sqrt(limit)
+    while x < third_bound:
+        k_3 = 3*x*x
+        if ((x & 1 == 0)):
+            y = 1
+            incr_index = 0
+        else:
+            y = 2
+            incr_index = 1
+        while y < x:
+            k = k_3 - y * y
+            if k < limit:
+                sieve_list[k] = not sieve_list[k]
+            y += incr_sequence[(++incr_index & 1)]
         x += 1
-        x_squared = x**2
 
     # Part II: Remove the squares of primes (and their multiples)
     r = 5
@@ -59,5 +77,5 @@ def atkin_sieve(limit):
     # Part III: Append everything into a list
     return [x for x, p in enumerate(sieve_list) if p]
 
-last_prime = atkin_sieve(10000000)#[-1]
+last_prime = atkin_sieve(100000000)#[-1]
 print (len(last_prime), time()-t_0)
