@@ -1,7 +1,15 @@
-#http://compoasso.free.fr/primelistweb/ressource/Atkin3.java
+# http://compoasso.free.fr/primelistweb/page/prime/atkin_en.php
+# http://compoasso.free.fr/primelistweb/ressource/Atkin3.java
+#
+# more optimizations to try:
+# (1) arrays instead of lists
+# (2) (x+1)^2 - (x)^2 = 2*x+1 increment
+# (3) whatever this guy is smoking: https://programmingpraxis.com/2010/02/19/sieve-of-atkin-improved/
+
 from math import sqrt
 from time import time
 t_0 = time()
+
 def atkin_sieve(limit):
     sieve_list = [False]*(limit+1)
     sieve_list[2:4] = (True, True)
@@ -21,7 +29,8 @@ def atkin_sieve(limit):
                     break
                 else:
                     sieve_list[k] = not sieve_list[k]
-                    y += incr_sequence[(++incr_index & 1)]
+                    incr_index += 1
+                    y += incr_sequence[(incr_index & 1)]
         else:
             while True:
                 k = k_1 + y * y
@@ -44,7 +53,8 @@ def atkin_sieve(limit):
             if k >= limit:
                 break
             sieve_list[k] = not sieve_list[k]
-            y += incr_sequence[(++incr_index & 1)]
+            incr_index += 1
+            y += incr_sequence[(incr_index & 1)]
         x += 2
 
     # Third loop
@@ -62,7 +72,8 @@ def atkin_sieve(limit):
             k = k_3 - y * y
             if k < limit:
                 sieve_list[k] = not sieve_list[k]
-            y += incr_sequence[(++incr_index & 1)]
+            incr_index += 1
+            y += incr_sequence[(incr_index & 1)]
         x += 1
 
     # Part II: Remove the squares of primes (and their multiples)
@@ -77,5 +88,6 @@ def atkin_sieve(limit):
     # Part III: Append everything into a list
     return [x for x, p in enumerate(sieve_list) if p]
 
-last_prime = atkin_sieve(100000000)#[-1]
-print (len(last_prime), time()-t_0)
+#last_prime = atkin_sieve(100000000)#[-1]
+#print (len(last_prime), time()-t_0)
+#print (last_prime)
