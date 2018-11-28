@@ -1,35 +1,44 @@
 # Plot Practice
 #
-#
-#
+
 import matplotlib.pyplot as mpl
 import numpy as np
+from perceptron import Perceptron 
 
 #points info
 
 # (1) Generate points
-X = np.arange(-7, 7, 0.2)
+X = np.arange(0, 20, 0.2)
+# data
+
+X_data = [(2,2),(2,4),(4,3),(6,8),(8,2),(8,10),(10,4),(10,10),(11,4),(12,2),(12,12),(16,12)]
+
+
+# data "Y"
+labels = [-1, 1, -1, 1, -1, 1, -1, 1, -1, -1, 1, 1]
 
 # (2) Plot points
-#X_data_no = np.array([[2.7810836,2.550537003], [1.465489372,2.362125076], [3.396561688,4.400293529], [1.38807019,1.850220317], [3.06407232,3.005305973]])
-#X_data_yes = np.array([[7.627531214,2.759262235], [5.332441248,2.088626775], [6.922596716,1.77106367], [8.675418651,-0.242068655], [7.673756466,3.508563011]])
-#X_data_no = np.array([[0,0],[1,0],[3,1],[5,2],[-1,-1],[-2,-3],[-5,-5]])
-#X_data_yes = np.array([[0,4],[-5,0],[-6,1],[1,4],[4,5],[-3,2],[-2,5]])
-X_data_yes = np.array([[1,1],[-2,1],[1.5,-0.5]])
-X_data_no = np.array([[2,-2],[-1,-1.5]])
+X_data_yes = np.array([(2,4),(6,8),(8,10),(10,10),(12,12),(16,12)])
 
-#Y_data = [-1,-1,-1,-1,-1,1,1,1,1,1]
-#Y_data = [1,1,1,1,1,1,1,-1,-1,-1,-1,-1,-1,-1]
-Y_data = [1,-1,-1,1,1]
+X_data_no = np.array([(2,2),(4,3),(8,2),(10,4),(11,4),(12,2)])
+
+Y_data = [-1, 1, -1, 1, -1, 1, -1, 1, -1, -1, 1, 1]
 
 x_no, y_no = zip(*X_data_no)
 x_yes, y_yes = zip(*X_data_yes)
 
-mpl.scatter(x_no,y_no,c='r')
-mpl.scatter(x_yes,y_yes,c='b')
+mpl.scatter(x_no, y_no, c='r')
+mpl.scatter(x_yes, y_yes, c='b')
 
 # (3) Plot lines
-mpl.plot(X, -0.500000*X-0.50000, 'g')
+# [ 0.34614926 -0.59964468  0.74115285]
+
+#mpl.plot(X, 0.761912 + 0.663298*X, 'g')
+
+perceptron = Perceptron() # creates instance of Perceptron class
+
+print perceptron.traincycle(X_data, labels)
+
 
 # (4) Display everything
 mpl.show()
